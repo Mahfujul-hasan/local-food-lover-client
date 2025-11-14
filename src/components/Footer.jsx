@@ -1,31 +1,33 @@
 import React from "react";
 import logo from '../assets/logo.png'
+import { Link } from "react-router";
+import { FaFacebookF } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { MdEmail } from "react-icons/md";
 
 const Footer = () => {
     
   return (
-    <footer className="footer sm:footer-horizontal bg-white text-base-content p-10 ">
-      <aside>
-        <img className="h-20" src={logo} alt="" />
-        <p>
-          ACME Industries Ltd.
-          <br />
-          Providing reliable tech since 1992
+    <footer className="footer sm:footer-horizontal  p-10 grid grid-cols-5 gap-10 bg-primary text-white ">
+      <aside className="col-span-2">
+        <Link to="/"><img className="h-20 rounded-full" src={logo} alt="local food networking logo" /></Link>
+        <p className="font-semibold ">
+          Local Food Networking connects food lovers with authentic local flavors. Discover community-driven reviews, share your experiences, and explore the best dishes from nearby kitchens. Eat local, connect local.
         </p>
       </aside>
-      <nav>
-        <h6 className="footer-title">Services</h6>
-        <a className="link link-hover">Branding</a>
-        <a className="link link-hover">Design</a>
-        <a className="link link-hover">Marketing</a>
-        <a className="link link-hover">Advertisement</a>
+      <nav className="g">
+        <h6 className="footer-title">Quick Links</h6>
+        <Link to="/" className="link link-hover font-semibold ">Home</Link>
+        <Link to="/all-reviews" className="link link-hover font-semibold ">All reviews</Link>
+        <Link to="/my-favorite" className="link link-hover font-semibold ">My favorites</Link>
+        <Link to="/my-reviews" className="link link-hover font-semibold ">My reviews</Link>
       </nav>
       <nav>
-        <h6 className="footer-title">Company</h6>
-        <a className="link link-hover">About us</a>
-        <a className="link link-hover">Contact</a>
-        <a className="link link-hover">Jobs</a>
-        <a className="link link-hover">Press kit</a>
+        <h6 className="footer-title">Contact Us</h6>
+        <a className="link link-hover flex items-center gap-3 font-medium"><FaFacebookF />Facebook</a>
+        <a className="link link-hover flex items-center gap-3 font-medium"><MdEmail />abcd@gmail.com</a>
+        <a className="link link-hover flex items-center gap-3 font-medium"><FaXTwitter />Twitter</a>
+        
       </nav>
       <nav>
         <h6 className="footer-title">Legal</h6>

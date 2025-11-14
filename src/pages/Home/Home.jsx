@@ -46,6 +46,7 @@ const Home = () => {
   return (
     <div>
       {/* slider section  */}
+      
       <Swiper
         modules={[Pagination, Autoplay]}
         pagination={{
@@ -59,9 +60,9 @@ const Home = () => {
         loop={true}
         freeMode={true}
       >
-        {reviews?.map((review) => (
-          <SwiperSlide>
-            <HeroSlider key={review._id} review={review}></HeroSlider>
+        {reviews.map((review) => (
+          <SwiperSlide key={review._id}>
+            <HeroSlider  review={review}></HeroSlider>
           </SwiperSlide>
         ))}
       </Swiper>
