@@ -10,12 +10,12 @@ const HeroSlider = ({review}) => {
       return <h3>loading...</h3>
     }
   return (
-    <div className="h-[400px] bg-cyan-200 py-5 px-40  mx-auto slider text-white  flex items-center justify-between">
-      <div className="space-y-2.5 flex flex-col">
-        <h3 className="text-yellow-500 text-6xl font-bold">
+    <div className="h-[550px] md:h-[400px] lg:h-[400px] bg-cyan-200 py-5 md:px-20 lg:px-40  mx-auto slider text-white flex   flex-col-reverse md:flex-row lg:flex-row md:items-center lg:items-center md:justify-between lg:justify-between gap-5">
+      <div className="px-5 space-y-2.5 flex flex-col  gap-3">
+        <h3 className="text-yellow-500 text-3xl lg:text-6xl font-bold">
           {review.foodName}
         </h3>
-        <h4 className="text-2xl font-bold flex items-center gap-3">
+        <h4 className="text-xl lg:text-2xl font-medium lg:font-bold flex items-center gap-3">
           <IoRestaurant />
           {review.restaurantName}
         </h4>
@@ -46,7 +46,7 @@ const HeroSlider = ({review}) => {
       </div>
       <div>
         <img
-          className="h-[300px]  rounded-lg"
+          className="h-[200px] lg:h-[300px] w-full  rounded-lg"
           src={review.foodImageUrl}
           alt=""
         />

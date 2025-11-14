@@ -15,7 +15,7 @@ import drinks_beverages from '../assets/Drinks_Beverages.jpg'
 const FoodCategory = () => {
   return (
     <div className="max-w-10/12 mx-auto">
-      <h3 className="text-5xl font-bold text-center text-primary">
+      <h3 className="text-3xl lg:text-5xl font-bold text-center text-primary">
         What Kind of Food <br />
         Are You Craving?
       </h3>
@@ -36,45 +36,45 @@ const FoodCategory = () => {
           className="mySwiper rounded-2xl"
         >
           <SwiperSlide>
-            <img className="relative rounded-3xl h-[400px] w-full mx-auto" src={fast_food} alt="" />
+            <img className="relative rounded-3xl h-[250px] lg:h-[400px] w-full mx-auto" src={fast_food} alt="" />
             <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/40 to-transparent rounded-3xl"></div>
-            <div className="absolute top-[170px] w-full">
-                <h3 className="text-center text-white text-7xl font-extrabold z-10" >Fast Food</h3>
+            <div className="absolute top-[125px] lg:top-[170px] w-full">
+                <h3 className="text-center text-white text-3xl lg:text-7xl font-extrabold z-10" >Fast Food</h3>
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <img className="relative rounded-3xl h-[400px] w-full mx-auto" src={traditional_food} alt="" />
+            <img className="relative rounded-3xl h-[250px] lg:h-[400px] w-full mx-auto" src={traditional_food} alt="" />
             <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/40 to-transparent rounded-3xl"></div>
-            <div className="absolute top-[170px] w-full">
-                <h3 className="text-center text-white text-7xl font-extrabold z-10" >Traditional Meals</h3>
+            <div className="absolute top-[125px] lg:top-[170px] w-full">
+                <h3 className="text-center text-white text-3xl lg:text-7xl font-extrabold z-10" >Traditional Meals</h3>
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <img className="relative rounded-3xl h-[400px] w-full mx-auto" src={desserts_sweets} alt="" />
+            <img className="relative rounded-3xl h-[250px] lg:h-[400px] w-full mx-auto" src={desserts_sweets} alt="" />
             <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/40 to-transparent rounded-3xl"></div>
-            <div className="absolute top-[170px] w-full">
-                <h3 className="text-center text-white text-7xl font-extrabold z-10" >Desserts & Sweets</h3>
+            <div className="absolute top-[125px] lg:top-[170px] w-full">
+                <h3 className="text-center text-white text-3xl lg:text-7xl font-extrabold z-10" >Desserts & Sweets</h3>
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <img className="relative rounded-3xl h-[400px] w-full mx-auto" src={healthy_food} alt="" />
+            <img className="relative rounded-3xl h-[250px] lg:h-[400px] w-full mx-auto" src={healthy_food} alt="" />
             <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/40 to-transparent rounded-3xl"></div>
-            <div className="absolute top-[170px] w-full">
-                <h3 className="text-center text-white text-7xl font-extrabold z-10" >Healthy Choices</h3>
+            <div className="absolute top-[125px] lg:top-[170px] w-full">
+                <h3 className="text-center text-white text-3xl lg:text-7xl font-extrabold z-10" >Healthy Choices</h3>
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <img className="relative rounded-3xl h-[400px] w-full mx-auto" src={street_food} alt="" />
+            <img className="relative rounded-3xl h-[250px] lg:h-[400px] w-full mx-auto" src={street_food} alt="" />
             <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/40 to-transparent rounded-3xl"></div>
-            <div className="absolute top-[170px] w-full">
-                <h3 className="text-center text-white text-7xl font-extrabold z-10" >Street Food</h3>
+            <div className="absolute top-[125px] lg:top-[170px] w-full">
+                <h3 className="text-center text-white text-3xl lg:text-7xl font-extrabold z-10" >Street Food</h3>
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <img className="relative rounded-3xl h-[400px] w-full mx-auto" src={drinks_beverages} alt="" />
+            <img className="relative rounded-3xl h-[250px] lg:h-[400px] w-full mx-auto" src={drinks_beverages} alt="" />
             <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/40 to-transparent rounded-3xl"></div>
             <div className="absolute top-[170px] w-full">
-                <h3 className="text-center text-white text-7xl font-extrabold z-10" >Drinks & Beverages</h3>
+                <h3 className="text-center text-white text-3xl lg:text-7xl font-extrabold z-10" >Drinks & Beverages</h3>
             </div>
           </SwiperSlide>
           
