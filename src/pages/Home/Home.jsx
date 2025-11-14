@@ -18,19 +18,17 @@ const Home = () => {
   const [topReviews, setTopReviews] = useState([]);
   const { loading, user } = useAuth();
   const axiosInstance = useAxios()
-  console.log(user);
+  
 
   useEffect(() => { 
     
     axiosInstance.get("/reviews").then((data) => {
-      console.log(data);
       setReviews(data.data);
     });
   }, [axiosInstance, user]);
 
   useEffect(() => {
     axiosInstance.get("/reviews/top").then((data) => {
-      console.log(data);
       setTopReviews(data.data);
     });
   }, [axiosInstance]);
@@ -41,8 +39,6 @@ const Home = () => {
     return <Spinner />;
   }
 
-  console.log(reviews);
-  console.log("top rated reviews", topReviews);
   return (
     <div>
       {/* slider section  */}
