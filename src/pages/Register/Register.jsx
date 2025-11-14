@@ -49,7 +49,6 @@ const Register = () => {
             console.log(err);
           });
 
-        console.log(user);
         Swal.fire({
           title: "You have registered successfully ",
           icon: "success",
@@ -65,7 +64,6 @@ const Register = () => {
         });
       });
 
-    console.log(name, password, email, confirmPassword, photoUrl);
   };
 
   const handleGoogleLogin = () => {
@@ -82,7 +80,7 @@ const Register = () => {
       });
   };
 
-  // console.log(user);
+
   return (
     <div className="hero bg-base-200 min-h-screen pt-10">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
