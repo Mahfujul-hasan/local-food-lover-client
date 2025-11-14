@@ -10,7 +10,7 @@ const Footer = () => {
   return (
     <footer className="footer sm:footer-horizontal  p-10 grid grid-cols-5 gap-10 bg-primary text-white ">
       <aside className="col-span-2">
-        <Link to="/"><img className="h-20 rounded-full" src={logo} alt="local food networking logo" /></Link>
+        <Link to="/"><img className="h-20 rounded-full" src={logo} alt="local food networking web logo" /></Link>
         <p className="font-semibold ">
           Local Food Networking connects food lovers with authentic local flavors. Discover community-driven reviews, share your experiences, and explore the best dishes from nearby kitchens. Eat local, connect local.
         </p>
@@ -34,6 +34,7 @@ const Footer = () => {
         <a className="link link-hover">Terms of use</a>
         <a className="link link-hover">Privacy policy</a>
         <a className="link link-hover">Cookie policy</a>
+
       </nav>
     </footer>
   );
