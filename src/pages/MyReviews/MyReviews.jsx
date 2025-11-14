@@ -46,7 +46,6 @@ const MyReviews = () => {
   if (loading) {
     return <Spinner />;
   }
-  console.log(myReviews);
   return (
     <div className="mx-auto max-w-10/12 pt-10">
       <h3 className="text-3xl font-bold text-center text-primary mb-5">
