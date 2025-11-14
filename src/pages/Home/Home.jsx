@@ -69,7 +69,7 @@ const Home = () => {
 
       {/* top 6 review  */}
       <div className="mt-20 max-w-11/12 mx-auto">
-        <h3 className="text-4xl font-bold text-center text-primary mb-5">
+        <h3 className="text-4xl font-bold text-center text-primary mb-6">
           Top Reviews
         </h3>
         <p className="text-center text-base font-medium text-gray-600 mb-10">
