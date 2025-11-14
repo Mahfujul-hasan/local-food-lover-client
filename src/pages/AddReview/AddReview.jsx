@@ -18,17 +18,6 @@ const AddReview = () => {
     const restaurantLocation = e.target.RestaurantLocation.value;
     const foodReview = e.target.review.value;
     const created_at = new Date();
-    // console.log(
-    //   foodName,
-    //   foodImageUrl,
-    //   restaurantName,
-    //   restaurantLocation,
-    //   rating,
-    //   foodReview,
-    //   user.email,
-    //   created_at
-    // );
-
     const newReview = {
       foodName,
       foodImageUrl,
