@@ -36,7 +36,7 @@ const Login = () => {
     loginWithGoogle()
       .then(() => {
         navigate(location.state || '/')
-        // console.log(res.user);
+        
         Swal.fire({
           title: "You have logged in successfully ",
           icon: "success",
