@@ -31,7 +31,7 @@ const ReviewCard = ({ review }) => {
 
     }
     setfavorited(true);
-    axiosInstance.post('/favorite',favorite).then(data=>console.log(data.data))
+    axiosInstance.post('/favorite',favorite).then()
   };
 
   useEffect(() => {
