@@ -3,11 +3,12 @@ import useAuth from "../hook/useAuth";
 import { IoLocationOutline, IoRestaurant } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router";
+import Spinner from "./Spinner";
 
 const HeroSlider = ({review}) => {
     const { loading}=useAuth()
     if(loading){
-      return <h3>loading...</h3>
+      return <Spinner/>
     }
   return (
     <div className="h-[550px] md:h-[400px] lg:h-[400px] bg-cyan-200 py-5 md:px-20 lg:px-40  mx-auto slider text-white flex   flex-col-reverse md:flex-row lg:flex-row md:items-center lg:items-center md:justify-between lg:justify-between gap-5">
