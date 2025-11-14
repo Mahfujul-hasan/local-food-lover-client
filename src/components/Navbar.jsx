@@ -87,6 +87,13 @@ const Navbar = () => {
                   My Review
                 </Link>
                 <Link
+                  to="/my-favorite"
+                  className="font-bold pb-2 border-primary border-b-2 flex gap-2 items-center hover:bg-base-200 p-2 rounded-md"
+                >
+                  <MdReviews />
+                  My Favorites
+                </Link>
+                <Link
                   onClick={handleSignOut}
                   className="font-bold pb-2 border-primary border-b-2 flex gap-2 items-center hover:bg-base-200 p-2 rounded-md"
                 >

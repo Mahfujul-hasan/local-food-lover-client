@@ -1,6 +1,6 @@
 import React, { use } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import logo from "../../assets/logo.png";
 import { AuthContext } from "../../AuthContext/AuthContext";
 import { updateProfile } from "firebase/auth";
@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 const Register = () => {
   const { loginWithGoogle, createUser } = use(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation()
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -69,8 +70,9 @@ const Register = () => {
 
   const handleGoogleLogin = () => {
     loginWithGoogle()
-      .then((res) => {
-        console.log(res.user);
+      .then(() => {
+        
+        navigate(location.state || '/')
       })
       .catch((err) => {
         Swal.fire({

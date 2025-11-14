@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
-import useAuth from "../../hook/useAuth";
-import { Link } from "react-router";
-import Swal from "sweetalert2";
-import Spinner from "../../components/Spinner";
+// import useAxios from "../../hook/useAxios";
 import NotFound from "../../components/NotFound";
+import Swal from "sweetalert2";
 import useAxios from "../../hook/useAxios";
 
-const MyReviews = () => {
+const MyFavorite = () => {
   const axiosInstance = useAxios();
-  const { user, loading } = useAuth();
-  const [myReviews, setMyReviews] = useState([]);
+
+  const [myFavorites, setMyFavorites] = useState([]);
 
   useEffect(() => {
     axiosInstance
-      .get(`/reviews?email=${user?.email}`)
-      .then((data) => setMyReviews(data.data));
-  }, [axiosInstance, user]);
+      .get("/favorite")
+      .then((data) => setMyFavorites(data.data));
+  }, [axiosInstance]);
+
+  
 
   const handleDeleteReview = (id) => {
     Swal.fire({
@@ -28,11 +28,11 @@ const MyReviews = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosInstance.delete(`/reviews/${id}`).then(() => {
-          const existingReviews = myReviews.filter(
+        axiosInstance.delete(`/favorite/${id}`).then(() => {
+          const existingReviews = myFavorites.filter(
             (review) => review._id !== id
           );
-          setMyReviews(existingReviews);
+          setMyFavorites(existingReviews);
           Swal.fire({
             title: "Deleted!",
             text: "Your file has been deleted.",
@@ -43,18 +43,14 @@ const MyReviews = () => {
     });
   };
 
-  if (loading) {
-    return <Spinner />;
-  }
-  console.log(myReviews);
   return (
     <div className="mx-auto max-w-10/12 pt-10">
       <h3 className="text-3xl font-bold text-center text-primary mb-5">
-        My Reviews
+        My Favorites
       </h3>
       <div>
         <div className="overflow-x-auto bg-white p-5 rounded-lg">
-          {myReviews.length < 1 ? (
+          {myFavorites.length < 1 ? (
             <NotFound />
           ) : (
             <table className="table">
@@ -69,7 +65,7 @@ const MyReviews = () => {
                 </tr>
               </thead>
               <tbody>
-                {myReviews.map((review) => {
+                {myFavorites.map((review) => {
                   return (
                     <tr key={review._id}>
                       <th>
@@ -85,12 +81,6 @@ const MyReviews = () => {
                         {new Date(review.created_at).toLocaleDateString()}
                       </td>
                       <th className="space-x-3">
-                        <Link
-                          to={`/my-review/${review._id}`}
-                          className="btn btn-outline btn-accent btn-xs text-sm px-3"
-                        >
-                          Edit
-                        </Link>
                         <button
                           onClick={() => {
                             handleDeleteReview(review._id);
@@ -112,4 +102,4 @@ const MyReviews = () => {
   );
 };
 
-export default MyReviews;
+export default MyFavorite;

@@ -33,7 +33,7 @@ const FoodCategory = () => {
         loop={true}
         freeMode={true}
           modules={[Pagination, Autoplay]}
-          className="mySwiper "
+          className="mySwiper rounded-2xl"
         >
           <SwiperSlide>
             <img className="relative rounded-3xl h-[400px] w-full mx-auto" src={fast_food} alt="" />

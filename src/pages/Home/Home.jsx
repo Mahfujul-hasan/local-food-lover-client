@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
-import useAxios from "../../hook/useAxios";
 import useAuth from "../../hook/useAuth";
 import HeroSlider from "../../components/HeroSlider";
 import ReviewCard from "../../components/ReviewCard";
@@ -10,24 +9,33 @@ import { Link } from "react-router";
 import HowItWorks from "../../components/HowItWorks";
 import FoodCategory from "../../components/FoodCategory";
 import Spinner from "../../components/Spinner";
+import NotFound from "../../components/NotFound";
+import useAxios from "../../hook/useAxios";
+
 
 const Home = () => {
   const [reviews, setReviews] = useState([]);
   const [topReviews, setTopReviews] = useState([]);
-  const { loading } = useAuth();
-  const axiosInstance = useAxios();
+  const { loading, user } = useAuth();
+  const axiosInstance = useAxios()
+  console.log(user);
 
-  useEffect(() => {
+  useEffect(() => { 
+    
     axiosInstance.get("/reviews").then((data) => {
+      console.log(data);
       setReviews(data.data);
     });
-  }, [axiosInstance]);
+  }, [axiosInstance, user]);
 
   useEffect(() => {
     axiosInstance.get("/reviews/top").then((data) => {
+      console.log(data);
       setTopReviews(data.data);
     });
   }, [axiosInstance]);
+
+  
 
   if (loading) {
     return <Spinner />;
@@ -39,21 +47,19 @@ const Home = () => {
     <div>
       {/* slider section  */}
       <Swiper
-        
         modules={[Pagination, Autoplay]}
         pagination={{
-          clickable:true
+          clickable: true,
         }}
         autoplay={{
           delay: 1500,
           disableOnInteraction: false,
         }}
-        
         speed={2000}
         loop={true}
         freeMode={true}
       >
-        {reviews.map((review) => (
+        {reviews?.map((review) => (
           <SwiperSlide>
             <HeroSlider key={review._id} review={review}></HeroSlider>
           </SwiperSlide>
@@ -61,7 +67,7 @@ const Home = () => {
       </Swiper>
 
       {/* top 6 review  */}
-      <div className="mt-20 max-w-10/12 mx-auto">
+      <div className="mt-20 max-w-11/12 mx-auto">
         <h3 className="text-4xl font-bold text-center text-primary mb-5">
           Top Reviews
         </h3>
@@ -72,18 +78,24 @@ const Home = () => {
           and honest opinions from food lovers like you. Let their stories guide
           you to your next delicious discovery!
         </p>
-        <div className="grid grid-cols-3 gap-5   ">
-          {topReviews.map((review) => (
-            <ReviewCard key={review._id} review={review}></ReviewCard>
-          ))}
-        </div>
+        {topReviews < 1 ? (
+          <NotFound />
+        ) : (
+          <div className="grid grid-cols-3 gap-8 items-center  ">
+            {topReviews?.map((review) => (
+              <ReviewCard key={review._id} review={review}></ReviewCard>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* show all  */}
       <div className="flex items-center justify-center mt-10">
-        <Link to="/all-reviews"><button className="btn button">Show All Reviews</button></Link>
+        <Link to="/all-reviews">
+          <button className="btn button">Show All Reviews</button>
+        </Link>
       </div>
-      
+
       {/* how it works?  */}
       <div className="mt-10">
         <HowItWorks />
@@ -91,9 +103,8 @@ const Home = () => {
 
       {/* food category  */}
       <div>
-        <FoodCategory/>
+        <FoodCategory />
       </div>
-
     </div>
   );
 };
