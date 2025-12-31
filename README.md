@@ -33,3 +33,8 @@
 
 ## Screenshot
 ![Project Screenshot](https://i.ibb.co.com/NdSXdCnK/1-C5-D1-AC6-0519-44-F4-8-A30-B1-BF0-B11947-A.png)
+
+## Run Locally
+1. Clone the repository
+2. npm install
+3. npm run dev
