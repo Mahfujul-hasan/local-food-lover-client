@@ -1,6 +1,8 @@
 # Website Name: Local Food Network
 
-## client site live url: https://melodic-tartufo-226969.netlify.app/
+## Website live url: https://melodic-tartufo-226969.netlify.app/
+## Overview
+<p>A food and restaurant review platform where users can sign up/login, post, update, and delete reviews. Users can save favorite reviews to a personal favorites page, manage their posts, and track all their activity on a “My Reviews” page. The platform makes discovering, sharing, and organizing reviews easy and interactive.</p>
 
 ## Website features: 
 - you can find the updated review for food and resturent
