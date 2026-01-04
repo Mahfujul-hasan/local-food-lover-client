@@ -8,7 +8,7 @@ import { MdEmail } from "react-icons/md";
 const Footer = () => {
     
   return (
-    <footer className="footer sm:footer-horizontal  p-10 grid grid-cols-1 lg:grid-cols-5 gap-10 bg-primary text-white ">
+    <footer className="footer sm:footer-horizontal max-w-7xl mx-auto px-20  p-10 grid grid-cols-1 lg:grid-cols-5 gap-10  text-white ">
       <aside className="col-span-2">
         <Link to="/"><img className="h-20 rounded-full" src={logo} alt="local food networking web logo" /></Link>
         <p className="font-semibold ">

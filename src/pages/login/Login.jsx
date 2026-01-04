@@ -1,102 +1,107 @@
-import React, { use} from "react";
-import logo from "../../assets/logo.png";
-import { FcGoogle } from "react-icons/fc";
+import { useForm } from "react-hook-form";
+import webLogo from "../../assets/national-fast-food-day.avif";
 import { Link, useLocation, useNavigate } from "react-router";
-import { AuthContext } from "../../AuthContext/AuthContext";
+
 import Swal from "sweetalert2";
+import useAuth from "../../hook/useAuth";
+import SocialLogin from "../../components/SocialLogin";
 
 const Login = () => {
-  const { loginWithGoogle, signInUser } = use(AuthContext);
+  const { signInUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const handleSignInUser = (e) => {
-    e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-
-    signInUser(email, password)
-      .then(() => {
-        Swal.fire({
-          title: "You have logged in successfully ",
-          icon: "success",
-          draggable: true,
-        });
-        navigate(location.state ||"/");
-      })
-      .catch((err) => {
-        Swal.fire({
-          title: `${err.code}`,
-          icon: "warning",
-        });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const handleLogin = (data) => {
+    signInUser(data.email, data.password).then(() => {
+      navigate(location.state || "/");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Your are successfully logged in!",
+        showConfirmButton: false,
+        timer: 1500,
       });
-  };
-
-  const handleGoogleLogin = () => {
-    loginWithGoogle()
-      .then(() => {
-        navigate(location.state || '/')
-        
-        Swal.fire({
-          title: "You have logged in successfully ",
-          icon: "success",
-          draggable: true,
-        });
-        navigate(location.state || '/')
-      })
-      .catch((err) => {
-        Swal.fire({
-          title: `${err.code}`,
-          icon: "warning",
-        });
-      });
+    });
   };
 
   return (
-    <div className="hero bg-base-200 min-h-screen">
-      <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-        <div className="card-body">
-          <div className="flex flex-col justify-center items-center ">
-            <img className="w-1/3" src={logo} alt="" />
-          </div>
-          <form onSubmit={(e) => handleSignInUser(e)}>
+    <div className="min-h-screen max-w-7xl mx-auto px-20 my-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 items-center border-2 border-gray-50 rounded-2xl">
+        <div className="h-full hidden md:flex lg:flex items-center ">
+          <img src={webLogo} className="h-full rounded-l-2xl" alt="" />
+        </div>
+        <div className="p-5  w-[90%] mx-auto">
+          <h3 className="text-2xl md:text-4xl lg:text-4xl font-bold mb-5 text-primary text-center">
+            Please Login your account
+          </h3>
+
+          <form onSubmit={handleSubmit(handleLogin)}>
             <fieldset className="fieldset">
-              <label className="label text-black  font-bold">Email</label>
+              {/* email  */}
+              <label className="label text-base font-semibold text-black">
+                Your Email
+              </label>
               <input
                 type="email"
-                className="input"
-                name="email"
+                className="input w-full"
                 placeholder="Email"
+                {...register("email", { required: "Email is required" })}
               />
-              <label className="label text-black  font-bold">Password</label>
+              {errors.email && (
+                <p className="text-red-400 font-medium">
+                  {errors.email.message}
+                </p>
+              )}
+
+              {/* password  */}
+              <label className="label text-base font-semibold text-black">
+                Enter Password
+              </label>
               <input
                 type="password"
-                className="input"
-                name="password"
+                className="input w-full"
                 placeholder="Password"
+                {...register("password", {
+                  required: "Password is required",
+                  pattern: {
+                    value:
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&]).{6,}$/,
+                    message:
+                      "Password must include upper, lower, number & special character and at least 6 characters.",
+                  },
+                })}
               />
+              {errors.password && (
+                <p className="text-red-400 font-medium">
+                  {errors.password.message}
+                </p>
+              )}
+
+              {/* forgot password  */}
               <div>
-                <a className="link link-hover">Forgot password?</a>
+                <Link className="underline text-primary font-bold">
+                  Forget password?
+                </Link>
               </div>
-              <button className="btn btn-neutral mt-4">Login</button>
+
+              {/* login button  */}
+              <button className="btn btn-primary mt-4">Login</button>
             </fieldset>
           </form>
-          <p>
-            <small>
-              New to the Website? Please{" "}
-              <Link to="/register" className="text-primary">
-                register now
-              </Link>{" "}
-            </small>
+          <p className="text-center mt-5">
+            Haven't any account? please{" "}
+            <Link to="/register" className="link text-primary">
+              Register
+            </Link>
           </p>
-          <div className="divider">OR</div>
-          <button
-            onClick={handleGoogleLogin}
-            className="btn bg-white text-black border-[#e5e5e5]"
-          >
-            <FcGoogle />
-            Continue with Google
-          </button>
+          <div className="divider">or</div>
+          <div className="w-full">
+            <SocialLogin />
+          </div>
         </div>
       </div>
     </div>

@@ -1,130 +1,234 @@
-import React, { useState } from "react";
-import useAuth from "../../hook/useAuth";
+import { Controller, useForm } from "react-hook-form";
+import addContestImg from "../../assets/traditional_food.jpg";
+import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router";
-import useAxios from "../../hook/useAxios";
-
+import useAuth from "../../hook/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../hook/useAxiosSecure";
 const AddReview = () => {
-  const [rating, setRating] = useState(0);
   const { user } = useAuth();
-  const axiosInstance = useAxios();
-  const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const { data: currentUser } = useQuery({
+    queryKey: ["user", user?.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users/${user.email}`);
+      return res.data;
+    },
+  });
 
-  const handleAddReview = (e) => {
-    e.preventDefault();
-    const foodName = e.target.foodName.value;
-    const foodImageUrl = e.target.foodUrl.value;
-    const restaurantName = e.target.RestaurantName.value;
-    const restaurantLocation = e.target.RestaurantLocation.value;
-    const foodReview = e.target.review.value;
-    const created_at = new Date();
-    const newReview = {
-      foodName,
-      foodImageUrl,
-      restaurantName,
-      restaurantLocation,
-      rating,
-      foodReview,
-      Created_by: user.email,
-      creator: user.displayName,
-      created_at,
+  const handleReviewSubmit = async (data) => {
+    const foodImg = data.foodImage[0];
+    const formData = new FormData();
+    formData.append("image", foodImg);
+    const url = `https://api.imgbb.com/1/upload?key=${
+      import.meta.env.VITE_IMGBB_KEY
+    }`;
+    const res = await axios.post(url, formData);
+    const foodImage = res.data.data.image.url;
+    const foodInfo = {
+      foodName: data.foodName,
+      foodImageUrl: foodImage,
+      foodReview: data.description,
+      restaurantName: data.restaurantName,
+      restaurantLocation: data.restaurantLocation,
+      rating: data.rating,
+      creatorId: currentUser._id,
+      creatorName: data.creatorName,
+      creatorEmail: data.creatorEmail,
+      status: "pending",
+      createdAt: new Date(),
     };
-    axiosInstance.post("/reviews", newReview).then(() => {
-      Swal.fire({
-        title: "Your review has been submitted successfully!",
-        icon: "success",
-        draggable: false,
-      });
-      
-      navigate('/all-reviews')
 
+    axiosSecure.post("/reviews", foodInfo).then((res) => {
+      if (res.data.insertedId) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Your review has been added successfull!",
+          showConfirmButton: false,
+          timer: 1500,
+          color: "orange",
+        });
+        reset();
+      }
     });
   };
   return (
-    <div className="hero bg-base-200 min-h-screen">
-      <div className="card bg-base-100 w-full max-w-2xl shrink-0 shadow-2xl p-5 mt-10">
-        <h3 className=" text-center text-3xl font-bold">Create Your Review</h3>
-        <div className="card-body">
-          <form onSubmit={handleAddReview}>
-            <fieldset className="fieldset space-y-5">
-              {/* food name  */}
-              <div className="flex flex-col space-y-2">
-                <label className=" font-semibold text-lg">Food Name:</label>
-                <input
-                  type="text"
-                  className="input w-full"
-                  name="foodName"
-                  placeholder="Food Name"
-                  required
-                />
-              </div>
-              {/* restaurant name  */}
-              <div className="flex flex-col space-y-2">
-                <label className=" font-semibold text-base">
-                  Restaurant Name{" "}
-                </label>
-                <input
-                  type="text"
-                  className="input w-full"
-                  name="RestaurantName"
-                  placeholder="Add restaurant name"
-                  required
-                />
-              </div>
+    <div className="max-w-7xl mx-auto py-10 px-5 md:px-10 lg:px-20">
+      <div className="grid grid-cols-1 lg:grid-cols-2 items-center shadow-md border-2 border-gray-50 rounded-3xl">
+        <div className="hidden md:flex lg:flex h-full">
+          <img
+            src={addContestImg}
+            alt=""
+            className="rounded-l-3xl h-full w-full"
+          />
+        </div>
+        <div className="rounded-r-3xl p-5 bg-white">
+          <h1 className="text-4xl font-extrabold text-center p-5 text-primary">
+            Add your Review
+          </h1>
+          <form onSubmit={handleSubmit(handleReviewSubmit)}>
+            <fieldset className="fieldset space-y-3">
+              {/* creator information  */}
+              <div className="grid grid-cols-2 gap-5">
+                {/* creator name  */}
+                <div>
+                  <label className="label">Your Name</label>
+                  <input
+                    type="text"
+                    className="input w-full"
+                    placeholder="Your Name"
+                    defaultValue={user.displayName}
+                    readOnly
+                    {...register("creatorName", {
+                      required: "Name is required",
+                    })}
+                  />
+                  {errors.creatorName && (
+                    <p className="text-red-500 font-bold">
+                      {errors.creatorName.message}
+                    </p>
+                  )}
+                </div>
 
-              {/* restaurant location  */}
-              <div className="flex flex-col space-y-2">
-                <label className=" text-base font-semibold">Location </label>
-                <input
-                  type="text"
-                  className="input w-full"
-                  name="RestaurantLocation"
-                  placeholder="Add restaurant location"
-                  required
-                />
-              </div>
-              {/* food url  */}
-              <div className="flex flex-col space-y-2">
-                <label className=" text-base font-semibold">Food Url</label>
-                <input
-                  type="url"
-                  className="input w-full"
-                  name="foodUrl"
-                  placeholder="image url"
-                  required
-                />
-              </div>
-
-              {/* food rating  */}
-
-              <div className="flex items-center  space-x-5">
-                <label className=" text-base font-semibold">Rating:</label>
-                <div className="rating rating-sm gap-1.5">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <input
-                      key={star}
-                      type="radio"
-                      name="rating"
-                      className="mask mask-star-2 bg-orange-400 "
-                      aria-label={`${star} star`}
-                      onChange={() => setRating(star)}
-                      required
-                    />
-                  ))}
+                {/* creator email  */}
+                <div>
+                  <label className="label">Your Email</label>
+                  <input
+                    type="email"
+                    className="input w-full"
+                    placeholder="Your Email"
+                    defaultValue={user.email}
+                    readOnly
+                    {...register("creatorEmail", {
+                      required: "Email is required",
+                    })}
+                  />
+                  {errors.creatorEmail && (
+                    <p className="text-red-500 font-bold">
+                      {errors.creatorEmail.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
-              <div className="flex flex-col space-y-2">
-                <label className="text-base font-semibold ">Food Review</label>
-                <textarea
-                  className="input h-40 w-full"
-                  name="review"
-                  required
-                  placeholder="Add descriptive food review"
-                />
+              <div className="grid grid-cols-2 gap-5">
+                <div>
+                  {/* Food name  */}
+                  <label className="label">Food Name</label>
+                  <input
+                    type="text"
+                    className="input w-full"
+                    placeholder="Food Name"
+                    {...register("foodName", {
+                      required: "Food Name is required",
+                    })}
+                  />
+                  {errors.foodName && (
+                    <p className="text-red-500 font-bold">
+                      {errors.foodName.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  {/* food image  */}
+                  <label className="label">Food Image</label>
+                  <input
+                    type="file"
+                    className="file-input file-input-ghost w-full"
+                    {...register("foodImage", {
+                      required: "Food Image is required",
+                    })}
+                  />
+                  {errors.foodImage && (
+                    <p className="text-red-500 font-bold">
+                      {errors.foodImage.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-5">
+                <div>
+                  {/* restaurant name  */}
+                  <label className="label">Restaurant Name</label>
+                  <input
+                    type="text"
+                    className="input w-full"
+                    placeholder="Restaurant Name"
+                    {...register("restaurantName", {
+                      required: "Restaurant Name is required",
+                    })}
+                  />
+                  {errors.restaurantName && (
+                    <p className="text-red-500 font-bold">
+                      {errors.restaurantName.message}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  {/* Restaurant location  */}
+                  <label className="label">Restaurant Location</label>
+                  <input
+                    type="text"
+                    className="input w-full"
+                    placeholder="location"
+                    {...register("restaurantLocation", {
+                      required: "Food Name is required",
+                    })}
+                  />
+                  {errors.restaurantLocation && (
+                    <p className="text-red-500 font-bold">
+                      {errors.restaurantLocation.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <label className="label">
+                <span className="label-text font-semibold">Your Rating</span>
+              </label>
+              <div className="rating rating-lg">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <input
+                    key={star}
+                    type="radio"
+                    value={star}
+                    {...register("rating", { required: true })}
+                    className="mask mask-star-2 bg-yellow-400"
+                  />
+                ))}
               </div>
 
-              <button className="btn btn-neutral mt-4">Submit Review</button>
+              {errors.rating && (
+                <p className="text-red-500">Rating is required</p>
+              )}
+
+              <div>
+                {/* Food review  */}
+                <label className="label">Food Review</label>
+                <textarea
+                  className="textarea w-full"
+                  placeholder="Add food review"
+                  {...register("description", {
+                    required: "food review is required",
+                  })}
+                ></textarea>
+                {errors.description && (
+                  <p className="text-red-500 font-bold">
+                    {errors.description.message}
+                  </p>
+                )}
+              </div>
+
+              <button className="btn btn-primary text-white text-lg rounded">
+                Add Now
+              </button>
             </fieldset>
           </form>
         </div>

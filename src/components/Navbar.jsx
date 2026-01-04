@@ -3,19 +3,25 @@ import { Link, NavLink } from "react-router";
 import logo from "../assets/logo.png";
 import { AuthContext } from "../AuthContext/AuthContext";
 import { FaSignOutAlt } from "react-icons/fa";
-import { CgProfile } from "react-icons/cg";
 import { MdAddCircleOutline, MdReviews } from "react-icons/md";
 
 const Navbar = () => {
   const { user, logOut } = use(AuthContext);
   const links = (
     <>
-      <li className="font-bold text-lg text-primary">
+      <li className="font-semibold text-lg text-primary">
         <NavLink to="/">Home</NavLink>
       </li>
-      <li className="font-bold text-lg text-primary">
+      <li className="font-medium text-lg text-primary">
         <NavLink to="/all-reviews">All reviews</NavLink>
       </li>
+      <li className="font-medium text-lg text-primary">
+        <NavLink to="/contact-us">Contact Us</NavLink>
+      </li>
+      <li className="font-medium text-lg text-primary">
+        <NavLink to="/faq">FAQ</NavLink>
+      </li>
+      
       
     </>
   );
@@ -26,7 +32,7 @@ const Navbar = () => {
       .catch((err) => console.log(err));
   };
   return (
-    <div className="nav navbar mx-auto">
+    <div className="nav navbar mx-auto px-5 md:px-10 lg:px-20">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -71,6 +77,14 @@ const Navbar = () => {
                 tabIndex="-1"
                 className="dropdown-content menu bg-base-100 rounded-box z-1  w-52 p-2 shadow-sm space-y-3"
               >
+                <Link
+                  to="/dashboard"
+
+                  className="font-bold pb-2 border-primary border-b-2 flex gap-2 items-center hover:bg-base-200 p-2 rounded-md"
+                >
+                  <MdAddCircleOutline />
+                  Dashboard
+                </Link>
                 <Link
                   to="/add-review"
 

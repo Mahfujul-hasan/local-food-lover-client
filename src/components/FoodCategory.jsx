@@ -14,7 +14,7 @@ import drinks_beverages from '../assets/Drinks_Beverages.jpg'
 
 const FoodCategory = () => {
   return (
-    <div className="max-w-10/12 mx-auto">
+    <div>
       <h3 className="text-3xl lg:text-5xl font-bold text-center text-primary">
         What Kind of Food <br />
         Are You Craving?

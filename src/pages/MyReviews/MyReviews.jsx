@@ -1,21 +1,30 @@
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
 import useAuth from "../../hook/useAuth";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
 import Spinner from "../../components/Spinner";
 import NotFound from "../../components/NotFound";
-import useAxios from "../../hook/useAxios";
+import useAxiosSecure from "../../hook/useAxiosSecure";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import FavoriteSkeleton from "../../components/FavoriteSkeleton";
 
 const MyReviews = () => {
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure()
   const { user, loading } = useAuth();
-  const [myReviews, setMyReviews] = useState([]);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    axiosInstance
-      .get(`/reviews?email=${user?.email}`)
-      .then((data) => setMyReviews(data.data));
-  }, [axiosInstance, user]);
+
+  const {data:myReviews=[], isLoading}=useQuery({
+    queryKey:['myReviews',user?.email],
+    queryFn:async()=>{
+      const res = await axiosSecure.get(`/reviews?email=${user.email}`)
+      const data = res.data;
+      return data
+    }
+
+  })
+  console.log(myReviews);
+
 
   const handleDeleteReview = (id) => {
     Swal.fire({
@@ -28,23 +37,20 @@ const MyReviews = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosInstance.delete(`/reviews/${id}`).then(() => {
-          const existingReviews = myReviews.filter(
-            (review) => review._id !== id
-          );
-          setMyReviews(existingReviews);
+        axiosSecure.delete(`/reviews/${id}`).then(() => {
           Swal.fire({
             title: "Deleted!",
             text: "Your file has been deleted.",
             icon: "success",
           });
+          queryClient.invalidateQueries(["myReviews", user.email]);
         });
       }
     });
   };
 
-  if (loading) {
-    return <Spinner />;
+  if (loading || isLoading) {
+    return <FavoriteSkeleton rows={5} />;
   }
   return (
     <div className="mx-auto max-w-10/12 pt-10">
@@ -81,7 +87,7 @@ const MyReviews = () => {
                       <td className="font-bold">{review.foodName}</td>
                       <td className="font-bold"> {review.restaurantName} </td>
                       <td>
-                        {new Date(review.created_at).toLocaleDateString()}
+                        {new Date(review.createdAt).toLocaleDateString()}
                       </td>
                       <th className="space-x-3">
                         <Link

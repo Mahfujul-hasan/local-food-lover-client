@@ -6,7 +6,7 @@ import save_favorite from "../assets/likes-folder.png";
 
 const HowItWorks = () => {
   return (
-    <div className=" px-5  lg:px-[150px] py-20">
+    <div className="py-20">
       <h3 className="text-5xl font-bold text-center text-primary">
         How It Works?
       </h3>
