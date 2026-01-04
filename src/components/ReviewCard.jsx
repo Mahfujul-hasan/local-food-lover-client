@@ -1,47 +1,13 @@
-import React, { useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { IoRestaurant } from "react-icons/io5";
 import useAuth from "../hook/useAuth";
 import { GrFavorite } from "react-icons/gr";
-import useAxios from "../hook/useAxiosSecure";
+
 import { Link } from "react-router";
 
 const ReviewCard = ({ review }) => {
-  const { loading, user } = useAuth();
-  const axiosInstance = useAxios()
-  const [myFavorite, setMyFavorite]=useState([]);
-  const [favorited, setfavorited]=useState(myFavorite.some(fav=>fav.review_id.toString() === review._id.toString()))
-  
+  const { loading } = useAuth();
 
-  const handleFavorite = () => {
-    if(favorited){
-      return;
-    }
-    const favorite={
-      review_id: review._id,
-      foodName: review.foodName,
-      foodImageUrl: review.foodImageUrl,
-      restaurantName: review.restaurantName,
-      restaurantLocation: review.restaurantLocation,
-      rating: review.rating,
-      foodReview: review.foodReview,
-      Created_by: review.Created_by,
-      creator: review.creator,
-      favorite_by: user.email,
-      created_at: new Date()
-
-    }
-    setfavorited(true);
-    axiosInstance.post('/favorite',favorite).then()
-  };
-
-  useEffect(() => {
-    axiosInstance.get("/favorite").then((data) => {
-      setMyFavorite(data.data)
-    });
-  }, [axiosInstance]);
-
-  
   if (loading) {
     return <h3>loading...</h3>;
   }
